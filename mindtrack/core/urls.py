@@ -1,7 +1,6 @@
 from django.urls import path
-from .views import MoodEntryCreateView, MoodEntryListView
+from .views import MoodEntryListCreateView
 
 urlpatterns = [
-    path('moods/create/', MoodEntryCreateView.as_view()),
-    path('moods/', MoodEntryListView.as_view()),
+    path('moods/', MoodEntryListCreateView.as_view(), name='moods'),
 ]
