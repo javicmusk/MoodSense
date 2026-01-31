@@ -11,10 +11,7 @@ from rest_framework import status
 from rest_framework.permissions import AllowAny
 from .serializers import RegisterSerializer
 
-from .ai import analyze_mood  
-
-
-
+from .ai import analyze_mood 
 
 
 class MoodEntryListCreateView(ListCreateAPIView):
@@ -107,7 +104,7 @@ class AnalyzeMoodView(APIView):
             "confidence_score": confidence,
             "message": "Mood analyzed successfully"
         })
-    
+   
     
 
 
