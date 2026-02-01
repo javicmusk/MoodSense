@@ -6,7 +6,6 @@ from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
 
 
-
 class MoodEntrySerializer(serializers.ModelSerializer):
     class Meta:
         model = MoodEntry
@@ -17,6 +16,9 @@ class MoodEntrySerializer(serializers.ModelSerializer):
             'confidence_score',
             'created_at',
         ]
+        read_only_fields = ['detected_mood', 'confidence_score', 'created_at']
+
+
 
 
 #for signup

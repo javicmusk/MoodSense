@@ -22,12 +22,12 @@ class MoodEntryListCreateView(ListCreateAPIView):
     def get_queryset(self):
         queryset = MoodEntry.objects.filter(user=self.request.user)
 
-        # 🔍 filter by date
+        # filter by date
         date = self.request.GET.get('date')
         if date:
             queryset = queryset.filter(created_at__date=parse_date(date))
 
-        # 🔍 filter by keyword
+        # filter by keyword
         keyword = self.request.GET.get('keyword')
         if keyword:
             queryset = queryset.filter(text__icontains=keyword)
@@ -41,11 +41,10 @@ class MoodEntryListCreateView(ListCreateAPIView):
         mood = result["mood"]
         confidence = result["confidence"]
 
-
         serializer.save(
             user=self.request.user,
-            detected_mood=mood,
-            confidence_score=round(confidence, 3)
+            detected_mood=result["mood"],
+            confidence_score=result["confidence"]
         )
 
 
