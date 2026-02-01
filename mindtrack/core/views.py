@@ -1,3 +1,4 @@
+from unittest import result
 from rest_framework.generics import ListCreateAPIView
 from rest_framework.permissions import IsAuthenticated
 from django.utils.dateparse import parse_date
@@ -11,7 +12,7 @@ from rest_framework import status
 from rest_framework.permissions import AllowAny
 from .serializers import RegisterSerializer
 
-from .ai import analyze_mood 
+from .ai.mood_analyzer import analyze_mood
 
 
 class MoodEntryListCreateView(ListCreateAPIView):
@@ -36,7 +37,10 @@ class MoodEntryListCreateView(ListCreateAPIView):
     def perform_create(self, serializer):
         text = serializer.validated_data.get("text")
 
-        mood, confidence = analyze_mood(text)
+        result = analyze_mood(text)
+        mood = result["mood"]
+        confidence = result["confidence"]
+
 
         serializer.save(
             user=self.request.user,
@@ -98,7 +102,10 @@ class AnalyzeMoodView(APIView):
                 status=status.HTTP_400_BAD_REQUEST
             )
 
-        mood, confidence = analyze_mood(text)
+        result = analyze_mood(text)
+        mood = result["mood"]
+        confidence = result["confidence"]
+
         return Response({
             "detected_mood": mood,
             "confidence_score": confidence,
